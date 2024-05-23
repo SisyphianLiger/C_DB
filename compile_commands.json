@@ -1,0 +1,54 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-Iinclude",
+      "-o",
+      "obj/cli_printer.o",
+      "src/cli_printer.c"
+    ],
+    "directory": "/Users/ryanmac/Desktop/10.LowLeveLAcademy/1.DB",
+    "file": "/Users/ryanmac/Desktop/10.LowLeveLAcademy/1.DB/src/cli_printer.c",
+    "output": "/Users/ryanmac/Desktop/10.LowLeveLAcademy/1.DB/obj/cli_printer.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-Iinclude",
+      "-o",
+      "obj/main.o",
+      "src/main.c"
+    ],
+    "directory": "/Users/ryanmac/Desktop/10.LowLeveLAcademy/1.DB",
+    "file": "/Users/ryanmac/Desktop/10.LowLeveLAcademy/1.DB/src/main.c",
+    "output": "/Users/ryanmac/Desktop/10.LowLeveLAcademy/1.DB/obj/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-Iinclude",
+      "-o",
+      "obj/opener.o",
+      "src/opener.c"
+    ],
+    "directory": "/Users/ryanmac/Desktop/10.LowLeveLAcademy/1.DB",
+    "file": "/Users/ryanmac/Desktop/10.LowLeveLAcademy/1.DB/src/opener.c",
+    "output": "/Users/ryanmac/Desktop/10.LowLeveLAcademy/1.DB/obj/opener.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-Iinclude",
+      "-o",
+      "obj/writer.o",
+      "src/writer.c"
+    ],
+    "directory": "/Users/ryanmac/Desktop/10.LowLeveLAcademy/1.DB",
+    "file": "/Users/ryanmac/Desktop/10.LowLeveLAcademy/1.DB/src/writer.c",
+    "output": "/Users/ryanmac/Desktop/10.LowLeveLAcademy/1.DB/obj/writer.o"
+  }
+]
