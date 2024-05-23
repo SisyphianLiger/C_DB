@@ -12,7 +12,7 @@ int main (int argc, char* argv[]) {
     
     int cur_flag;
 
-    while((cur_flag = getopt(argc, argv, "n:f:h")) != -1) {
+    while((cur_flag = getopt(argc, argv, "n::f:h::")) != -1) {
         switch (cur_flag) {
             case 'n':
                 newfile = true;
@@ -22,7 +22,7 @@ int main (int argc, char* argv[]) {
                 break;
             case 'h':
                 printf("\n");
-                printf("This will be help\n");
+                print_usage(argv);
                 printf("\n");
                 break;
             case '?':
@@ -36,7 +36,7 @@ int main (int argc, char* argv[]) {
 
     if (filepath == NULL) {
         printf("Filepath is a required arguement\n");
-        print_usage(argv);
+        printf("Run: <File> -h for help options\n");
         return -1;
     }
 
