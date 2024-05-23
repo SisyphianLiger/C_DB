@@ -15,7 +15,7 @@ int main (int argc, char* argv[]) {
     
     int cur_flag;
 
-    while((cur_flag = getopt(argc, argv, "n::f:h")) != -1) {
+    while((cur_flag = getopt(argc, argv, "nf:h")) != -1) {
         switch (cur_flag) {
             case 'n':
                 new_file = true;
