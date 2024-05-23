@@ -2,5 +2,5 @@
 .json
 .cache
 compile_commands.json
-bin/*
+*bin
 *.db
