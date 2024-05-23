@@ -12,14 +12,12 @@ int main (int argc, char* argv[]) {
     
     int cur_flag;
 
-    while((cur_flag = getopt(argc, argv, "nfh:")) != -1) {
+    while((cur_flag = getopt(argc, argv, "n:f:h")) != -1) {
         switch (cur_flag) {
             case 'n':
                 newfile = true;
                 break;
             case 'f':
-                printf("Hit Here\n");
-                printf("optarg is: %s\n", optarg);
                 filepath = optarg;
                 break;
             case 'h':
