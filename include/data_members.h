@@ -7,7 +7,7 @@ struct dbheader_t {
    unsigned int magic;
    unsigned short version;
    unsigned short count;
-   unsigned int filesilze;
+   unsigned int filesize;
 };
 
 
@@ -20,5 +20,5 @@ struct employee_t {
 int create_db_header(int fd, struct dbheader_t **headerOut);
 int validate_db_header(int fd, struct dbheader_t **headerOut);
 int read_employees(int fd, struct dbheader_t **headerOut, struct employee_t **employeesOut);
-int endian_verifier(struct dbheader_t *header);
+int endian_verifier(int fd, struct dbheader_t *header);
 #endif // !DATA_MEMBERS_H
