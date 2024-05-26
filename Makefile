@@ -3,7 +3,7 @@ SRC = $(wildcard src/*.c)
 OBJ = $(patsubst src/%.c, obj/%.o, $(SRC))
 
 run: clean default
-		./$(TARGET)
+		./$(TARGET) 
 
 default: $(TARGET)
 

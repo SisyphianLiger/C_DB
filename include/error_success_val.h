@@ -1,0 +1,7 @@
+#ifndef ERROR_SUCCESS_VAL_H
+#define ERROR_SUCCESS_VAL_H
+
+#define STATUS_ERROR -1
+#define STATUS_SUCESS 0
+
+#endif // !WRITER_H
