@@ -87,13 +87,14 @@ int output_file(int fd, struct dbheader_t *db_header, struct employee_t * employ
         printf("Bad File Number from User \n");
         return STATUS_ERROR;
     }
-
+    
     int employee_count = db_header->count;
-
+    printf("employee_count Coming in is currently %i\n", employee_count);
     db_header -> magic = htonl(db_header->magic);
     db_header -> filesize = htonl(sizeof(struct dbheader_t) + (sizeof(struct employee_t) * employee_count));
     db_header -> count = htons(db_header->count);
     db_header -> version = htons(db_header->version);
+    printf("employee_count after adding is currently %i\n", employee_count);
  
     // Points to spot in memeory to write
     lseek(fd, 0, SEEK_SET);
@@ -104,6 +105,7 @@ int output_file(int fd, struct dbheader_t *db_header, struct employee_t * employ
         write(fd, &employees[i], sizeof(struct employee_t));
     }
 
+    printf("header->count after is %i\n", db_header->count);
     return STATUS_SUCESS;
 }
 

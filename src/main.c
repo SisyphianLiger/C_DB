@@ -94,13 +94,10 @@ int main (int argc, char* argv[]) {
             printf("Database is Full, Cannot Add more Employees");
             return -1;
         }
-        printf("Hit added employees\n");
         add_employees(header, employees, addstr);
 
     }
-
     output_file(db_fd, header, employees);
-
     return 0;
 }
 
