@@ -46,8 +46,6 @@ int validate_db_header(int fd, struct dbheader_t **headerOut){
         return STATUS_ERROR;
     }
 
-    // Fixed Here
-    header ->count = ntohs(header->count);
     if (endian_verifier(fd, header) == STATUS_ERROR)
         return -1;    
     
@@ -57,6 +55,8 @@ int validate_db_header(int fd, struct dbheader_t **headerOut){
 
 
 int endian_verifier(int fd, struct dbheader_t *header) {
+    // Fixed Here
+    header ->count = ntohs(header->count);
     // Checking for little or big endianess in networks
     if ((header->version = ntohs(header->version)) != 1) {
         printf("Header Version is incorrect: Version inserted is: %i\n", header->version);
