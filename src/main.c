@@ -73,7 +73,6 @@ int main (int argc, char* argv[]) {
 
     } else {
         db_fd = open_db_file(filepath);
-        printf("db_fd is %d\n", db_fd);
         if (db_fd == STATUS_ERROR) {
             printf("Unable to open database");
             return -1;
@@ -95,12 +94,12 @@ int main (int argc, char* argv[]) {
             printf("Database is Full, Cannot Add more Employees");
             return -1;
         }
-
+        printf("Hit added employees\n");
         add_employees(header, employees, addstr);
 
     }
 
-    output_file(db_fd, header);
+    output_file(db_fd, header, employees);
 
     return 0;
 }
