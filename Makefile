@@ -6,7 +6,6 @@ run: clean default
 		./$(TARGET) -f ./mydb.db -n 
 		./$(TARGET) -f ./mydb.db -a "Timmy H.,123 Sheshire Ln.,120" 
 		./$(TARGET) -f ./mydb.db -a "Timmy H.,123 Sheshire Ln.,120" 
-		./$(TARGET) -f ./mydb.db -a "Timmy H.,123 Sheshire Ln.,120" 
 
 default: $(TARGET)
 

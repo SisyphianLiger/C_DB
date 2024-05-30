@@ -46,7 +46,8 @@ int validate_db_header(int fd, struct dbheader_t **headerOut){
         return STATUS_ERROR;
     }
 
-
+    // Fixed Here
+    header ->count = ntohs(header->count);
     if (endian_verifier(fd, header) == STATUS_ERROR)
         return -1;    
     
