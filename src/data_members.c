@@ -4,6 +4,7 @@
 #include <sys/_endian.h>
 #include <time.h>
 #include <unistd.h>
+#include <string.h>
 #include "data_members.h"
 #include "error_success_val.h"
 
@@ -20,7 +21,7 @@ int create_db_header(int fd, struct dbheader_t **headerOut) {
     header->version = 0x1;
     header->count = 0;
     header->magic = HEADER_MAGIC;
-    header->filesilze = sizeof(struct dbheader_t);    
+    header->filesize = sizeof(struct dbheader_t);    
 
     *headerOut = header;
     return STATUS_SUCESS;
@@ -47,15 +48,11 @@ int validate_db_header(int fd, struct dbheader_t **headerOut){
 
 
     if (endian_verifier(fd, header) == STATUS_ERROR)
-        return -1;
+        return -1;    
     
+    *headerOut = header;
+    return fd;
 }
-
-
-int read_employees(int fd, struct dbheader_t **headerOut, struct employee_t **employeesOut) {
-
-}
-
 
 
 int endian_verifier(int fd, struct dbheader_t *header) {
@@ -75,10 +72,71 @@ int endian_verifier(int fd, struct dbheader_t *header) {
     struct stat db_stat = {0};
     fstat(fd, &db_stat);
 
-    if (header-> filesize ) {
+    if ((header-> filesize = ntohl(header->filesize) != db_stat.st_size)) {
         printf("Filesize does not match: Corrupted File\n");
         free(header);
         return STATUS_ERROR;
     }
+    return STATUS_SUCESS;
+}
+
+
+int output_file(int fd, struct dbheader_t *db_header){
+    if (fd < 0) {
+        printf("Bad File Number from User \n");
+        return STATUS_ERROR;
+    }
+    db_header -> magic = htonl(db_header->magic);
+    db_header -> filesize = htonl(db_header->filesize);
+    db_header -> count = htons(db_header->count);
+    db_header -> version = htons(db_header->version);
+ 
+    // Points to spot in memeory to write
+    lseek(fd, 0, SEEK_SET);
+    write(fd, db_header, sizeof(struct dbheader_t));
+
+    return STATUS_SUCESS;
+}
+
+
+int read_employees(int fd, struct dbheader_t * headerOut, struct employee_t **employeesOut) {
+     
+    if (fd < 0) {
+        printf("Bad File Number from User \n");
+        return STATUS_ERROR;
+    }
+
+    int count = headerOut -> count; 
+
+    struct employee_t * employes = calloc(count, sizeof(struct employee_t)); 
+
+    if (employes == NULL) {
+        printf("Malloc Failed \n");
+        return STATUS_ERROR;
+    }
+    
+    read(fd, employes, count*sizeof(struct employee_t));
+
+    for (int i = 0; i < count; i++) 
+        employes[i].hours = ntohl(employes[i].hours);
+    
+    *employeesOut = employes;
+
+    return STATUS_SUCESS;
+}
+
+
+int add_employees(struct dbheader_t * header, struct employee_t *employeeAdd, char * addstr) {
+
+    printf("Optarg is %s\n", addstr);
+    // char * name  = strtok(addstr, ",");
+    // char * addr  = strtok(NULL, ",");
+    // char * hours = strtok(NULL, ",");
+    // printf("Name is %s, addr is %s, hours is %s\n", name, addr, hours);
+    // strncpy(employeeAdd[header->count-1].name, name, sizeof((employeeAdd[header->count-1].name)));
+    // strncpy(employeeAdd[header->count-1].address, addr, sizeof((employeeAdd[header->count-1].address)));
+    // employeeAdd[header-> count-1].hours = atoi(hours); 
+
+
     return STATUS_SUCESS;
 }

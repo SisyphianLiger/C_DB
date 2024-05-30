@@ -1,7 +1,10 @@
 #include <stdatomic.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <getopt.h>
 #include <stdbool.h>
+#include <time.h>
+#include <unistd.h>
 #include "cli_printer.h"
 #include "data_members.h"
 #include "db_creator.h"
@@ -13,19 +16,24 @@
 int main (int argc, char* argv[]) {
     
     char *filepath = NULL;
+    char *addstr = NULL;
     bool new_file = false;
     int db_fd = NEW_FILE;
     
     struct dbheader_t * header = NULL;
+    struct employee_t * employees = NULL;
     int cur_flag;
 
-    while((cur_flag = getopt(argc, argv, "nf:h")) != -1) {
+    while((cur_flag = getopt(argc, argv, "nf:a:h")) != -1) {
         switch (cur_flag) {
             case 'n':
                 new_file = true;
                 break;
             case 'f':
                 filepath = optarg;
+                break;
+            case 'a':
+                addstr = optarg;
                 break;
             case 'h':
                 printf("\n");
@@ -65,6 +73,7 @@ int main (int argc, char* argv[]) {
 
     } else {
         db_fd = open_db_file(filepath);
+        printf("db_fd is %d\n", db_fd);
         if (db_fd == STATUS_ERROR) {
             printf("Unable to open database");
             return -1;
@@ -75,11 +84,23 @@ int main (int argc, char* argv[]) {
         }
     }
 
-    
+    if (read_employees(db_fd, header, &employees) != STATUS_SUCESS){
+        printf("Failed to read employees");
+        return -1;
+    }
 
+    if (addstr)  {
+        header->count++; 
+        if (realloc(employees, header->count*(sizeof(struct employee_t))) == NULL){
+            printf("Database is Full, Cannot Add more Employees");
+            return -1;
+        }
 
-    printf("Newfile: %d\n", new_file);
-    printf("filepath: %s\n", filepath);
+        add_employees(header, employees, addstr);
+
+    }
+
+    output_file(db_fd, header);
 
     return 0;
 }
