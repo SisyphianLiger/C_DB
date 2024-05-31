@@ -9,7 +9,7 @@
 #include "data_members.h"
 #include "db_creator.h"
 #include "error_success_val.h"
-
+#include "employees.h"
 
 #define NEW_FILE -1
 
@@ -17,23 +17,32 @@ int main (int argc, char* argv[]) {
     
     char *filepath = NULL;
     char *addstr = NULL;
-    bool new_file = false;
     int db_fd = NEW_FILE;
+    bool new_file = false;
+    bool list = false;
+    char * name = NULL; 
     
     struct dbheader_t * header = NULL;
     struct employee_t * employees = NULL;
+    
     int cur_flag;
 
-    while((cur_flag = getopt(argc, argv, "nf:a:h")) != -1) {
+    while((cur_flag = getopt(argc, argv, "nf:a:hlr:u:")) != -1) {
         switch (cur_flag) {
             case 'n':
                 new_file = true;
+                break;
+            case 'r':
+                name = optarg;
                 break;
             case 'f':
                 filepath = optarg;
                 break;
             case 'a':
                 addstr = optarg;
+                break;
+            case 'l':
+                list = true;
                 break;
             case 'h':
                 printf("\n");
@@ -93,11 +102,22 @@ int main (int argc, char* argv[]) {
             printf("Database is Full, Cannot Add more Employees");
             return -1;
         }
+
         header->count++;
-        printf("header-> count is %i\n", header->count);
+        
         add_employees(header, employees, addstr);
 
     }
+
+    if (list) 
+        list_employees(header, employees);
+    
+
+    if (name != NULL) 
+        remove_employee_by_name(header, employees, name);
+    
+
+
     output_file(db_fd, header, employees);
     return 0;
 }
