@@ -89,11 +89,12 @@ int main (int argc, char* argv[]) {
     }
 
     if (addstr)  {
-        header->count++; 
         if (realloc(employees, header->count*(sizeof(struct employee_t))) == NULL){
             printf("Database is Full, Cannot Add more Employees");
             return -1;
         }
+        header->count++;
+        printf("header-> count is %i\n", header->count);
         add_employees(header, employees, addstr);
 
     }
