@@ -21,8 +21,8 @@ int main (int argc, char* argv[]) {
     bool new_file = false;
     bool list = false;
     char * name = NULL; 
+    char * hours = NULL;
 
-    // Implement Flag for Update Here
     
     struct dbheader_t * header = NULL;
     struct employee_t * employees = NULL;
@@ -36,6 +36,10 @@ int main (int argc, char* argv[]) {
                 break;
             case 'r':
                 name = optarg;
+                break;
+            case 'u':
+                name = optarg;
+                hours = argv[optind];
                 break;
             case 'f':
                 filepath = optarg;
@@ -62,7 +66,6 @@ int main (int argc, char* argv[]) {
 
 
     // Check for actual File path
-
     if (filepath == NULL) {
         printf("Filepath is a required arguement\n");
         printf("Run: <File> -h for help options\n");
@@ -104,8 +107,7 @@ int main (int argc, char* argv[]) {
             return -1;
         }
 
-        header->count++;
-        
+        header->count++;        
         add_employees(header, employees, addstr);
 
     }
@@ -114,7 +116,7 @@ int main (int argc, char* argv[]) {
         list_employees(header, employees);
     
 
-    if (name != NULL) {
+    if (name && !hours) {
         if(remove_employee_by_name(header, employees, name) == STATUS_ERROR){
             printf("Could not remove employee:\n");
             return -1;
@@ -125,9 +127,14 @@ int main (int argc, char* argv[]) {
             return -1;
         }
     }
-    
 
-    // Implement Update hours here
+    if (name && hours){
+        if(update_employee_hours(header, employees, name, hours) == STATUS_ERROR){
+            printf("Unable to update Employee hours for %s\n", name);
+            return -1;
+        }
+    }
+    
 
     output_file(db_fd, header, employees);
     return 0;

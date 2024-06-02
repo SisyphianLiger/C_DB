@@ -1,3 +1,4 @@
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
@@ -87,7 +88,6 @@ void list_employees(struct dbheader_t *header, struct employee_t *employees) {
 
 int remove_employee_by_name(struct dbheader_t * header, struct employee_t * employees, char * name){
    
-    // Double check to make sure we can remove something
     if (header -> count < 1) {
         printf("Invalid Command: No Employees in the DB\n");
         return STATUS_ERROR;
@@ -115,9 +115,26 @@ int remove_employee_by_name(struct dbheader_t * header, struct employee_t * empl
     return STATUS_SUCESS;
 }
 
-// Working on this
-int update_employee_hours(struct dbheader_t *header, struct employee_t * employees) {
+int update_employee_hours(struct dbheader_t *header, struct employee_t * employees, char * name, char * hours) {
 
+    if (header -> count < 1) {
+        printf("Invalid Command: No Employees in the DB\n");
+        return STATUS_ERROR;
+    }
 
-    return STATUS_SUCESS;
+    long valid_hours = strtoul(hours, NULL, 0);
+    if (valid_hours > INT_MAX || valid_hours < 0){
+       printf("Error: Number is too large\n");
+       return STATUS_ERROR;
+    }
+
+    
+    for( int i = 0; i < (header -> count); i++){
+        if (strcmp(employees[i].name, name) == 0){
+            employees[i].hours += (int) valid_hours;         
+            return STATUS_SUCESS;
+        }
+    }
+    
+    return STATUS_ERROR;
 }

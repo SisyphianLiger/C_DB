@@ -8,6 +8,5 @@ int read_employees(int, struct dbheader_t *, struct employee_t **);
 int add_employees(struct dbheader_t *,  struct employee_t *, char*);
 void list_employees(struct dbheader_t *, struct employee_t *);
 int remove_employee_by_name(struct dbheader_t *, struct employee_t *, char *);
-// Working on thie
-int update_employee_hours(struct dbheader_t *, struct employee_t *);
+int update_employee_hours(struct dbheader_t *, struct employee_t *, char *, char *);
 #endif // !EMPLOYEES_H
