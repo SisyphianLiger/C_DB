@@ -87,7 +87,6 @@ int main (int argc, char* argv[]) {
             return -1;
         }
         if (validate_db_header(db_fd, &header) == STATUS_ERROR){
-            printf("No Header found, Incorrect File Read\n");
             return -1;
         }
     }
@@ -113,8 +112,17 @@ int main (int argc, char* argv[]) {
         list_employees(header, employees);
     
 
-    if (name != NULL) 
-        remove_employee_by_name(header, employees, name);
+    if (name != NULL) {
+        if(remove_employee_by_name(header, employees, name) == STATUS_ERROR){
+            printf("Could not remove employee:\n");
+            return -1;
+        }
+        header->count--;
+        if (realloc(employees, header->count*(sizeof(struct employee_t))) == NULL){
+            printf("Database is Full, Cannot Add more Employees");
+            return -1;
+        }
+    }
     
 
 

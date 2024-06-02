@@ -16,8 +16,8 @@ int output_file(int fd, struct dbheader_t *db_header, struct employee_t * employ
         printf("Bad File Number from User \n");
         return STATUS_ERROR;
     }
-    
     int employee_count = db_header->count;
+    
     db_header -> magic = htonl(db_header->magic);
     db_header -> filesize = htonl(sizeof(struct dbheader_t) + (sizeof(struct employee_t) * employee_count));
     db_header -> count = htons(db_header->count);
@@ -32,6 +32,7 @@ int output_file(int fd, struct dbheader_t *db_header, struct employee_t * employ
         write(fd, &employees[i], sizeof(struct employee_t));
     }
 
+    ftruncate(fd, sizeof(struct dbheader_t) + (sizeof(struct employee_t) * employee_count));
     return STATUS_SUCESS;
 }
 
@@ -80,19 +81,36 @@ int add_employees(struct dbheader_t * header, struct employee_t *employeeAdd, ch
 void list_employees(struct dbheader_t *header, struct employee_t *employees) {
     
     for (int i = 0; i < (header->count); i++) 
-        printf("\nEmployee ID: %i\nName:  %s\nAddress: %s\nHours Worked:%i\n", i,employees[i].name, employees[i].address, employees[i].hours);
-    
+        printf("\nEmployee ID: %i\nName:  %s\nAddress: %s\nHours Worked:%i\n", i,employees[i].name, employees[i].address, employees[i].hours); 
 }
 
 
 int remove_employee_by_name(struct dbheader_t * header, struct employee_t * employees, char * name){
    
-    for (int i = 0; i < (header -> count) ; i++) {
-      if(strcmp(employees[i].name, name) == 0){
-            printf("Match of Name: %s found at position %d\n", name, i);
-      }
+    // Double check to make sure we can remove something
+    if (header -> count < 1) {
+        printf("Invalid Command: No Employees in the DB\n");
+        return STATUS_ERROR;
+    }
+    
+    int index_of_employee = -1;
+    int i = 1; 
+    
+    for (i = 0; i < (header->count); i++) {
+        if (strcmp(employees[i].name, name) == 0){
+            index_of_employee = i;
+            break;
+        }
+    }
+    
+    if (index_of_employee < 0){
+        printf("Employee: %s  Not Found in DB\n", name);
+        return STATUS_ERROR;
     }
 
-    return STATUS_SUCESS;
+    for (int i = index_of_employee; i < (header->count - 1); i++) 
+        employees[i] = employees[i+1]; 
+    
 
+    return STATUS_SUCESS;
 }
