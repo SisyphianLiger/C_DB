@@ -21,6 +21,8 @@ int main (int argc, char* argv[]) {
     bool new_file = false;
     bool list = false;
     char * name = NULL; 
+
+    // Implement Flag for Update Here
     
     struct dbheader_t * header = NULL;
     struct employee_t * employees = NULL;
@@ -125,6 +127,7 @@ int main (int argc, char* argv[]) {
     }
     
 
+    // Implement Update hours here
 
     output_file(db_fd, header, employees);
     return 0;

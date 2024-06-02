@@ -114,3 +114,10 @@ int remove_employee_by_name(struct dbheader_t * header, struct employee_t * empl
 
     return STATUS_SUCESS;
 }
+
+// Working on this
+int update_employee_hours(struct dbheader_t *header, struct employee_t * employees) {
+
+
+    return STATUS_SUCESS;
+}

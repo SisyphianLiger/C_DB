@@ -3,9 +3,11 @@
 
 #include "data_members.h"
 
-int output_file(int fd, struct dbheader_t *t, struct employee_t * employees);
-int read_employees(int fd, struct dbheader_t * headerOut, struct employee_t **employeesOut);
-int add_employees(struct dbheader_t * header,  struct employee_t *employeeAdd, char* addstr);
-void list_employees(struct dbheader_t * header, struct employee_t * employees);
-int remove_employee_by_name(struct dbheader_t * header, struct employee_t * employees, char * name);
+int output_file(int, struct dbheader_t *, struct employee_t *);
+int read_employees(int, struct dbheader_t *, struct employee_t **);
+int add_employees(struct dbheader_t *,  struct employee_t *, char*);
+void list_employees(struct dbheader_t *, struct employee_t *);
+int remove_employee_by_name(struct dbheader_t *, struct employee_t *, char *);
+// Working on thie
+int update_employee_hours(struct dbheader_t *, struct employee_t *);
 #endif // !EMPLOYEES_H
