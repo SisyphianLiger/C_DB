@@ -7,8 +7,8 @@ run: clean default
 		./$(TARGET) -f ./mydb.db -a "Timmy H.,123 Sheshire Ln.,1" 
 		./$(TARGET) -f ./mydb.db -a "Jake H.,123 Sheshire Ln.,2" 
 		./$(TARGET) -f ./mydb.db -a "Jason H.,123 Sheshire Ln.,3" 
-		./$(TARGET) -f ./mydb.db -u "Timmy H." "9" 
-		./$(TARGET) -f ./mydb.db -u "Timmy" "9" 
+		./$(TARGET) -f ./mydb.db -r "Timmy H."
+		./$(TARGET) -f ./mydb.db -r "Jake H."
 		./$(TARGET) -f ./mydb.db -l 
 
 default: $(TARGET)

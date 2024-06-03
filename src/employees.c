@@ -33,7 +33,6 @@ int output_file(int fd, struct dbheader_t *db_header, struct employee_t * employ
         write(fd, &employees[i], sizeof(struct employee_t));
     }
 
-    ftruncate(fd, sizeof(struct dbheader_t) + (sizeof(struct employee_t) * employee_count));
     return STATUS_SUCESS;
 }
 
@@ -86,7 +85,7 @@ void list_employees(struct dbheader_t *header, struct employee_t *employees) {
 }
 
 
-int remove_employee_by_name(struct dbheader_t * header, struct employee_t * employees, char * name){
+int remove_employee_by_name(int fd, struct dbheader_t * header, struct employee_t * employees, char * name){
    
     if (header -> count < 1) {
         printf("Invalid Command: No Employees in the DB\n");
@@ -110,7 +109,15 @@ int remove_employee_by_name(struct dbheader_t * header, struct employee_t * empl
 
     for (int i = index_of_employee; i < (header->count - 1); i++) 
         employees[i] = employees[i+1]; 
-    
+   
+    header->count--;
+
+    if (realloc(employees, header->count*(sizeof(struct employee_t))) == NULL){
+        printf("Database is Full, Cannot Add more Employees");
+        return -1;
+    }
+
+    ftruncate(fd, sizeof(struct dbheader_t) + (sizeof(struct employee_t) * header->count));
 
     return STATUS_SUCESS;
 }

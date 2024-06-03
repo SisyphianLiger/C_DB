@@ -117,13 +117,8 @@ int main (int argc, char* argv[]) {
     
 
     if (name && !hours) {
-        if(remove_employee_by_name(header, employees, name) == STATUS_ERROR){
+        if(remove_employee_by_name(db_fd, header, employees, name) == STATUS_ERROR){
             printf("Could not remove employee:\n");
-            return -1;
-        }
-        header->count--;
-        if (realloc(employees, header->count*(sizeof(struct employee_t))) == NULL){
-            printf("Database is Full, Cannot Add more Employees");
             return -1;
         }
     }
