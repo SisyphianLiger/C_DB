@@ -8,5 +8,9 @@ void print_usage(char *argv[]) {
     printf("\t -n   -   create new database file\n");
     printf("\t -f   -   (required) path to database file\n");
     printf("\t -h   -   Help Options - Listed\n");
+    printf("\t -l   -   Lists all users in DB\n");
+    printf("\t -h   -   Help Options - Listed\n");
+    printf("\t -r   -   Remove user by name <User Info>\n");
+    printf("\t -u   -   Update Hours of user by name and hours \n");
     printf("\n");
 }
